@@ -1,0 +1,54 @@
+language: ruby
+dist: bionic
+
+rbenv:
+- 2.6
+- 2.7
+- 3.0
+
+addons:
+  apt:
+    packages:
+      # https://docs.travis-ci.com/user/docker/#installing-a-newer-docker-version
+      - docker-ce
+
+services:
+- docker
+
+before_install:
+  - sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates -y && sudo update-ca-certificates
+  # see https://blog.travis-ci.com/docker-rate-limits 
+  # and also https://www.docker.com/blog/what-you-need-to-know-about-upcoming-docker-hub-rate-limiting/
+  # if we do not use authorized account, 
+  # the pulls-per-IP quota is shared with other Travis users
+  - >
+    if [ ! -z "$DOCKERHUB_PASSWORD" ] && [ ! -z "$DOCKERHUB_USERNAME" ]; then
+      echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin  ;
+    fi
+  - |
+    nvm install --lts \
+      && nvm use --lts \
+      && npm i -g yarn
+
+jobs:
+  include:
+  - stage: test
+    env:
+      # GEM_ALTERNATIVE_NAME only needed for deployment 
+      - GEM_ALTERNATIVE_NAME=''
+    script: bundle exec rake
+
+before_deploy:
+  - |
+    npm i -g \
+      semantic-release \
+      @semantic-release/git \
+      @semantic-release/changelog \
+      semantic-release-rubygem
+
+deploy:
+  - provider: script
+    script: ./release.sh
+    on:
+      branch: master
+      condition: "$TRAVIS_RUBY_VERSION = 2.7"

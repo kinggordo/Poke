@@ -1,0 +1,11 @@
+name: rails5_users_app
+packages:
+  - path: app/models
+    labels: [ mvc.model ]
+  - path: app/controllers
+    labels: [ mvc.controller ]
+  - gem: sequel
+functions:
+  - name: logger/Logger::LogDevice#write
+    builtin: true
+    label: log

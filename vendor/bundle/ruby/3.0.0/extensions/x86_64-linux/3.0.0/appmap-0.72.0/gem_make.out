@@ -1,0 +1,15 @@
+current directory: /home/kingo/patrice/vendor/bundle/ruby/3.0.0/gems/appmap-0.72.0/ext/appmap
+/home/kingo/.rbenv/versions/3.0.2/bin/ruby -I /home/kingo/.rbenv/versions/3.0.2/lib/ruby/3.0.0 -r ./siteconf20220131-82836-lhaybh.rb extconf.rb
+creating Makefile
+
+current directory: /home/kingo/patrice/vendor/bundle/ruby/3.0.0/gems/appmap-0.72.0/ext/appmap
+make DESTDIR\= clean
+
+current directory: /home/kingo/patrice/vendor/bundle/ruby/3.0.0/gems/appmap-0.72.0/ext/appmap
+make DESTDIR\=
+compiling appmap.c
+linking shared-object appmap/appmap.so
+
+current directory: /home/kingo/patrice/vendor/bundle/ruby/3.0.0/gems/appmap-0.72.0/ext/appmap
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 appmap.so ./.gem.20220131-82836-7tpk4o/appmap
